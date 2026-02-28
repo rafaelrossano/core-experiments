@@ -33,7 +33,11 @@ void test_strcpy(void) {
 
     p = rpo_strcpy(buf, "Hello, World!");
     ASSERT("correct copy",          strcmp(buf, "Hello, World!") == 0);
-    ASSERT("correct return",        p == buf);
+    ASSERT("correct return (dst)",  p == buf);
+
+    rpo_strcpy(buf, "");
+    ASSERT("empty string",           strcmp(buf, "") == 0);
+    
 }
 
 // -- Main --
