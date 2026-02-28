@@ -1,3 +1,8 @@
+
+test_runner
+
+.vscode/
+
 # Prerequisites
 *.d
 
@@ -52,4 +57,8 @@ Mkfile.old
 dkms.conf
 
 # debug information files
+<<<<<<< HEAD
 *.dwo
+=======
+*.dwo
+>>>>>>> 796649d (Initial commit, rpo_strlen and rpo_strcpy implementation + tests)
