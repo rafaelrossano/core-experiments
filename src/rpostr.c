@@ -23,3 +23,17 @@ char *rpo_strcpy(char * restrict dst, const char * restrict src) {
     *p = *src;
     return dst;
 }
+
+char *rpo_strncpy(char * restrict dst, const char * restrict src, size_t n) {
+    char *p = dst;
+
+    while (n--) {
+        if (*src) {
+            *p++ = *src++;
+        } else {
+            *p++ = '\0';
+        }
+    }
+
+    return dst;
+}

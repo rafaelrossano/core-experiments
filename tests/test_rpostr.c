@@ -2,6 +2,8 @@
 #include <string.h>
 #include "rpostr.h"
 
+#define TEST_STRINGS_MAX_SIZE 16
+
 static int tests_run    = 0;
 static int tests_failed = 0;
 
@@ -28,7 +30,7 @@ void test_strlen(void) {
 
 void test_strcpy(void) {
     printf("\n[rpo_strcpy]\n");
-    char buf[64];
+    char buf[TEST_STRINGS_MAX_SIZE];
     char *p;
 
     p = rpo_strcpy(buf, "Hello, World!");
@@ -40,6 +42,22 @@ void test_strcpy(void) {
     
 }
 
+void test_strncpy(void) {
+    printf("\n[rpo_strncpy]\n");
+    char buf[TEST_STRINGS_MAX_SIZE];
+    char *p;
+    size_t nbytes = 5;
+    char *aux_buf[nbytes];
+
+    p = rpo_strncpy(buf, "Hello, World!", nbytes);
+    ASSERT("correct return (dst)",  p==buf);
+    ASSERT("correct num of bytes copied", memcmp(buf, "Hello", nbytes) == 0);
+    
+    rpo_strncpy(buf, "abc", nbytes);
+    ASSERT("filled with NULL characters if n > src", memcmp(buf, aux_buf, nbytes));
+
+}
+
 // -- Main --
 
 int main(void)
@@ -47,7 +65,7 @@ int main(void)
     printf("=== Running tests ===");
     test_strlen();
     test_strcpy();
-    //test_strcmp();
+    test_strncpy();
     printf("\n=== Result: %d/%d passed ===\n",
            tests_run - tests_failed, tests_run);
     return tests_failed > 0 ? 1 : 0;
