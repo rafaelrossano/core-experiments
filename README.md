@@ -52,7 +52,7 @@ Tests use a minimal `ASSERT` macro — no external libraries. Keeping it simple 
 
 ### Strings
 
-`rpo_strlen` `rpo_strcpy` `rpo_strncpy` `rpo_strcmp`
+`rpo_strlen` `rpo_strcpy` `rpo_strncpy` `rpo_strcat` `rpo_strncat` `rpo_strcmp` `rpo_strncmp` `rpo_strchr` `rpo_strrchr` `rpo_strstr`
 
 ### Memory
 
