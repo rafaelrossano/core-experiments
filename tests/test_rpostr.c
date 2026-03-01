@@ -157,6 +157,19 @@ void test_strncmp(void) {
     ASSERT("unsigned char comparison",          rpo_strncmp("\x80", "\x01", 1) > 0);
 }
 
+void test_strchr(void) {
+    printf("\n[rpo_strchr]\n");
+    const char *str = "Hello, World!";
+
+    ASSERT("char found",                rpo_strchr(str, 'W') == str + 7);
+    ASSERT("first occurrence",          rpo_strchr(str, 'l') == str + 2);
+    ASSERT("first char",                rpo_strchr(str, 'H') == str);
+    ASSERT("last char",                 rpo_strchr(str, '!') == str + 12);
+    ASSERT("char not found",            rpo_strchr(str, 'z') == NULL);
+    ASSERT("empty string",              rpo_strchr("", 'a') == NULL);
+    ASSERT("null terminator search",    rpo_strchr(str, '\0') == str + 13);
+}
+
 // -- Main --
 
 int main(void)
@@ -169,6 +182,7 @@ int main(void)
     test_strncat();
     test_strcmp();
     test_strncmp();
+    test_strchr();
     printf("\n=== Result: %d/%d passed ===\n",
            tests_run - tests_failed, tests_run);
     return tests_failed > 0 ? 1 : 0;

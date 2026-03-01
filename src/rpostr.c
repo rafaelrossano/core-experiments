@@ -72,3 +72,12 @@ int rpo_strncmp(const char * s1, const char * s2, size_t n) {
     }
     return ((unsigned char)*s1 - (unsigned char)*s2);
 }
+
+char *rpo_strchr(const char * str, int c) {
+    while (*str || (unsigned char)c == '\0') {
+        if (*str == (unsigned char)c) return (char *)str;
+        str++;
+    }
+    
+    return NULL;
+}
