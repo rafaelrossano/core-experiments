@@ -13,8 +13,10 @@ char *rpo_strcat(char * restrict s1, const char * restrict s2);
 
 char *rpo_strncat(char * restrict s1, const char * restrict s2, size_t n);
 
-int rpo_strcmp(const char * restrict s1, const char * restrict s2);
+int rpo_strcmp(const char * s1, const char * s2);
 
-int rpo_strncmp(const char * restrict s1, const char * restrict s2, size_t n);
+int rpo_strncmp(const char * s1, const char * s2, size_t n);
+
+char *rpo_strchr(const char * restrict str, int c);
 
 #endif
