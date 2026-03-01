@@ -37,9 +37,9 @@ void test_strcpy(void) {
     ASSERT("correct copy",          strcmp(buf, "Hello, World!") == 0);
     ASSERT("correct return (dst)",  p == buf);
 
-    rpo_strcpy(buf, "");
+    p = rpo_strcpy(buf, "");
     ASSERT("empty string",          strcmp(buf, "") == 0);
-    
+     ASSERT("correct return (dst)",  p == buf);
 }
 
 void test_strncpy(void) {
@@ -47,7 +47,7 @@ void test_strncpy(void) {
     char buf[TEST_STRINGS_MAX_SIZE];
     char *p;
     size_t nbytes;
-    char *aux_buf[nbytes];
+    char aux_buf[TEST_STRINGS_MAX_SIZE] = {0};
 
     nbytes = 5;
 
@@ -57,6 +57,11 @@ void test_strncpy(void) {
     
     rpo_strncpy(buf, "abc", nbytes);
     ASSERT("filled with NULL characters if n > src",    memcmp(buf, aux_buf, nbytes));
+
+    nbytes = 0;
+    char *buffer_2 = "Hello";
+    strncpy(buffer_2, ", World!", nbytes);
+    ASSERT("0 bytes passed",        strcmp(buffer_2, "Hello") == 0);
 }
 
 void test_strcat(void) {
