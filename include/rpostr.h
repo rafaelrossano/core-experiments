@@ -21,5 +21,6 @@ char *rpo_strchr(const char *str, int c);
 
 char *rpo_strrchr(const char *str, int c);
 
+char *rpo_strstr(const char *s1, const char *s2);
 
 #endif

@@ -91,3 +91,19 @@ char *rpo_strrchr(const char *str, int c) {
     if (*str == (char)c) return (char *)str;
     return last_occurrence;
 }
+
+char *rpo_strstr(const char *s1, const char *s2) {
+    if (!*s2) return (char *)s1;
+    while (*s1) {
+        const char *p1 = s1;
+        const char *p2 = s2;
+        while (*p1 && *p2 && *p1 == *p2) {
+            p1++;
+            p2++;
+        }
+        if (!*p2) return (char *)s1;
+        s1++;
+    }
+    return NULL;
+    // Try KMP after getting better at malloc.
+}

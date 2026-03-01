@@ -183,6 +183,23 @@ void test_strrchr(void) {
     ASSERT("null terminator search",    rpo_strrchr(str, '\0') == str + 13);
 }
 
+void test_strstr(void) {
+    printf("\n[rpo_strstr]\n");
+    const char *str = "Hello, World!";
+
+    ASSERT("substring found",           rpo_strstr(str, "World") == str + 7);
+    ASSERT("first occurrence",          rpo_strstr(str, "l") == str + 2);
+    ASSERT("full string match",         rpo_strstr(str, "Hello, World!") == str);
+    ASSERT("first char",                rpo_strstr(str, "H") == str);
+    ASSERT("last char",                 rpo_strstr(str, "!") == str + 12);
+    ASSERT("substring not found",       rpo_strstr(str, "xyz") == NULL);
+    ASSERT("s2 longer than s1",         rpo_strstr("abc", "abcdef") == NULL);
+    ASSERT("empty s2",                  rpo_strstr(str, "") == str);
+    ASSERT("empty s1",                  rpo_strstr("", "abc") == NULL);
+    ASSERT("both empty",                rpo_strstr("", "") != NULL);
+    ASSERT("correct return pointer",    rpo_strstr("abcabc", "cab") == rpo_strstr("abcabc", "cab"));
+}
+
 // -- Main --
 
 int main(void)
@@ -197,6 +214,7 @@ int main(void)
     test_strncmp();
     test_strchr();
     test_strrchr();
+    test_strstr();
     printf("\n=== Result: %d/%d passed ===\n",
            tests_run - tests_failed, tests_run);
     return tests_failed > 0 ? 1 : 0;
