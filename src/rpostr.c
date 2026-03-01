@@ -37,3 +37,12 @@ char *rpo_strncpy(char * restrict dst, const char * restrict src, size_t n) {
 
     return dst;
 }
+
+char *rpo_strcat(char * restrict s1, const char * restrict s2) {
+    char *p = s1;
+    while (*s1) s1++;
+    while (*s2) 
+        *s1++=*s2++;
+        
+    return p;
+}
