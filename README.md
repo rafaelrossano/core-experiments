@@ -48,38 +48,15 @@ Tests use a minimal `ASSERT` macro — no external libraries. Keeping it simple 
 
 ---
 
-## Functions
+### Implemented
 
 ### Strings
 
-| Function | Status |
-|---|---|
-| `rpo_strlen` | ✅ |
-| `rpo_strcpy` | ✅ |
-| `rpo_strncpy` | ✅ |
-| `rpo_strcat` | 🔄 |
-| `rpo_strncat` | ⬜ |
-| `rpo_strcmp` | ✅ |
-| `rpo_strncmp` | ⬜ |
-| `rpo_strchr` | ⬜ |
-| `rpo_strrchr` | ⬜ |
-| `rpo_strstr` | ⬜ |
-| `rpo_strtok` | ⬜ |
-
-Safer alternatives (for study and comparison):
-`strlcpy`, `strlcat`, `strcpy_s`, `strncpy_s`, `strndup`
+`rpo_strlen` `rpo_strcpy` `rpo_strncpy` `rpo_strcmp`
 
 ### Memory
 
-| Function | Status |
-|---|---|
-| `rpo_memset` | ⬜ |
-| `rpo_memcpy` | ⬜ |
-| `rpo_memmove` | ⬜ |
-| `rpo_memcmp` | ⬜ |
-| `rpo_memchr` | ⬜ |
-
----
+work in progress.
 
 ## What comes next
 
