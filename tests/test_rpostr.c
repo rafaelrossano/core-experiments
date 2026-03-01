@@ -121,6 +121,23 @@ void test_strncat(void) {
     ASSERT("empty s2",                          strcmp(s1, "Hello,") == 0);
 }
 
+void test_strcmp(void) {
+    printf("\n[rpo_strcmp]\n");
+
+    ASSERT("equal strings",                     rpo_strcmp("abc", "abc") == 0);
+    ASSERT("empty strings",                     rpo_strcmp("", "") == 0);
+    ASSERT("empty s1",                          rpo_strcmp("", "abc") < 0);
+    ASSERT("empty s2",                          rpo_strcmp("abc", "") > 0);
+    ASSERT("s1 less than s2",                   rpo_strcmp("abc", "abd") < 0);
+    ASSERT("s1 greater than s2",                rpo_strcmp("abd", "abc") > 0);
+    ASSERT("s1 prefix of s2",                   rpo_strcmp("abc", "abcd") < 0);
+    ASSERT("s2 prefix of s1",                   rpo_strcmp("abcd", "abc") > 0);
+    ASSERT("single char equal",                 rpo_strcmp("a", "a") == 0);
+    ASSERT("single char less",                  rpo_strcmp("a", "b") < 0);
+    ASSERT("single char greater",               rpo_strcmp("b", "a") > 0);
+    ASSERT("unsigned char comparison",          rpo_strcmp("\x80", "\x01") > 0);
+}
+
 // -- Main --
 
 int main(void)
@@ -131,6 +148,7 @@ int main(void)
     test_strncpy();
     test_strcat();
     test_strncat();
+    test_strcmp();
     printf("\n=== Result: %d/%d passed ===\n",
            tests_run - tests_failed, tests_run);
     return tests_failed > 0 ? 1 : 0;
