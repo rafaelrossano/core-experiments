@@ -17,6 +17,9 @@ int rpo_strcmp(const char * s1, const char * s2);
 
 int rpo_strncmp(const char * s1, const char * s2, size_t n);
 
-char *rpo_strchr(const char * str, int c);
+char *rpo_strchr(const char *str, int c);
+
+char *rpo_strrchr(const char *str, int c);
+
 
 #endif

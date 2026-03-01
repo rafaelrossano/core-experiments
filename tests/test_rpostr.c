@@ -170,6 +170,19 @@ void test_strchr(void) {
     ASSERT("null terminator search",    rpo_strchr(str, '\0') == str + 13);
 }
 
+void test_strrchr(void) {
+    printf("\n[rpo_strrchr]\n");
+    const char *str = "Hello, World!";
+
+    ASSERT("char found",                rpo_strrchr(str, 'W') == str + 7);
+    ASSERT("last occurrence",           rpo_strrchr(str, 'l') == str + 10);
+    ASSERT("first char",                rpo_strrchr(str, 'H') == str);
+    ASSERT("last char",                 rpo_strrchr(str, '!') == str + 12);
+    ASSERT("char not found",            rpo_strrchr(str, 'z') == NULL);
+    ASSERT("empty string",              rpo_strrchr("", 'a') == NULL);
+    ASSERT("null terminator search",    rpo_strrchr(str, '\0') == str + 13);
+}
+
 // -- Main --
 
 int main(void)
@@ -183,6 +196,7 @@ int main(void)
     test_strcmp();
     test_strncmp();
     test_strchr();
+    test_strrchr();
     printf("\n=== Result: %d/%d passed ===\n",
            tests_run - tests_failed, tests_run);
     return tests_failed > 0 ? 1 : 0;
