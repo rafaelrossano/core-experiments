@@ -138,6 +138,25 @@ void test_strcmp(void) {
     ASSERT("unsigned char comparison",          rpo_strcmp("\x80", "\x01") > 0);
 }
 
+void test_strncmp(void) {
+    printf("\n[rpo_strncmp]\n");
+    size_t nbytes;
+
+    nbytes = 3;
+    ASSERT("equal strings",                     rpo_strncmp("abc", "abc", nbytes) == 0);
+    ASSERT("empty strings",                     rpo_strncmp("", "", nbytes) == 0);
+    ASSERT("empty s1",                          rpo_strncmp("", "abc", nbytes) < 0);
+    ASSERT("empty s2",                          rpo_strncmp("abc", "", nbytes) > 0);
+    ASSERT("s1 less than s2",                   rpo_strncmp("abc", "abd", nbytes) < 0);
+    ASSERT("s1 greater than s2",                rpo_strncmp("abd", "abc", nbytes) > 0);
+    ASSERT("n == 0",                            rpo_strncmp("abc", "xyz", 0) == 0);
+    ASSERT("n < difference position",           rpo_strncmp("abcX", "abcY", nbytes) == 0);
+    ASSERT("n > strlen",                        rpo_strncmp("abc", "abc", 10) == 0);
+    ASSERT("s1 prefix of s2",                   rpo_strncmp("abc", "abcd", 4) < 0);
+    ASSERT("s2 prefix of s1",                   rpo_strncmp("abcd", "abc", 4) > 0);
+    ASSERT("unsigned char comparison",          rpo_strncmp("\x80", "\x01", 1) > 0);
+}
+
 // -- Main --
 
 int main(void)
@@ -149,6 +168,7 @@ int main(void)
     test_strcat();
     test_strncat();
     test_strcmp();
+    test_strncmp();
     printf("\n=== Result: %d/%d passed ===\n",
            tests_run - tests_failed, tests_run);
     return tests_failed > 0 ? 1 : 0;

@@ -63,3 +63,12 @@ int rpo_strcmp(const char * restrict s1, const char * restrict s2) {
     }
     return ((unsigned char)*s1 - (unsigned char)*s2);
 }
+
+int rpo_strncmp(const char * restrict s1, const char * restrict s2, size_t n) {
+    if (n==0) return 0;
+    while (--n && *s1 && *s2 && *s1 == *s2) {
+        s1++;
+        s2++;
+    }
+    return ((unsigned char)*s1 - (unsigned char)*s2);
+}
