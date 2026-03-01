@@ -11,4 +11,6 @@ char *rpo_strncpy(char * restrict dst, const char * restrict src, size_t n);
 
 char *rpo_strcat(char * restrict s1, const char * restrict s2);
 
+char *rpo_strncat(char * restrict s1, const char * restrict s2, size_t n);
+
 #endif

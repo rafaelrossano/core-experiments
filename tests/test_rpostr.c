@@ -50,18 +50,19 @@ void test_strncpy(void) {
     char aux_buf[TEST_STRINGS_MAX_SIZE] = {0};
 
     nbytes = 5;
-
     p = rpo_strncpy(buf, "Hello, World!", nbytes);
-    ASSERT("correct return (dst)",  p==buf);
-    ASSERT("correct num of bytes copied",               memcmp(buf, "Hello", nbytes) == 0);
-    
-    rpo_strncpy(buf, "abc", nbytes);
-    ASSERT("filled with NULL characters if n > src",    memcmp(buf, aux_buf, nbytes));
+    ASSERT("correct return (dst)",              p == buf);
+    ASSERT("correct num of bytes copied",       memcmp(buf, "Hello", nbytes) == 0);
+    ASSERT("no null terminator if n < src",     buf[5] != '\0' || memcmp(buf, "Hello", 5) == 0);
 
-    nbytes = 0;
-    char *buffer_2 = "Hello";
-    strncpy(buffer_2, ", World!", nbytes);
-    ASSERT("0 bytes passed",        strcmp(buffer_2, "Hello") == 0);
+    char buffer_2[TEST_STRINGS_MAX_SIZE];
+    rpo_strncpy(buffer_2, "abc", nbytes);
+    ASSERT("src copied correctly",                      memcmp(buffer_2, "abc", 3) == 0);
+    ASSERT("filled with NULL characters if n > src",    memcmp(buffer_2 + 3, aux_buf, nbytes - 3) == 0);
+
+    char buffer_3[TEST_STRINGS_MAX_SIZE] = "Hello";
+    rpo_strncpy(buffer_3, ", World!", 0);
+    ASSERT("n == 0, nothing copied",            strcmp(buffer_3, "Hello") == 0);
 }
 
 void test_strcat(void) {
@@ -72,16 +73,52 @@ void test_strcat(void) {
     char *p;
 
     p = rpo_strcat(s1, s2);
-    ASSERT("concatenation",         strcmp(s1, "Hello, World!") == 0);
-    ASSERT("correct return (s1)",   p==s1);
+    ASSERT("concatenation",                     strcmp(s1, "Hello, World!") == 0);
+    ASSERT("correct return (s1)",               p == s1);
+    ASSERT("null terminated",                   s1[strlen(s1)] == '\0');
 
     strcpy(s1, "Hello,");
     rpo_strcat(s1, empty_string);
-    ASSERT("empty s2 string",       strcmp(s1, "Hello,") == 0);
-    
-    strcpy(s2, " World!");
-    rpo_strcat(empty_string, s2);
-    ASSERT("empty s1 string",       strcmp(empty_string, " World!") == 0);
+    ASSERT("empty s2 string",                   strcmp(s1, "Hello,") == 0);
+
+    strcpy(s1, "");
+    rpo_strcat(s1, "World!");
+    ASSERT("empty s1 string",                   strcmp(s1, "World!") == 0);
+
+    strcpy(s1, "");
+    rpo_strcat(s1, empty_string);
+    ASSERT("both empty",                        strcmp(s1, "") == 0);
+}
+
+void test_strncat(void) {
+    printf("\n[rpo_strncat]\n");
+    char s1[TEST_STRINGS_MAX_SIZE] = "Hello,";
+    char *p;
+    size_t nbytes;
+
+    nbytes = 7;
+    p = rpo_strncat(s1, " World!", nbytes);
+    ASSERT("concatenation",                     strcmp(s1, "Hello, World!") == 0);
+    ASSERT("correct return (s1)",               p == s1);
+    ASSERT("null terminated",                   s1[strlen(s1)] == '\0');
+
+    strcpy(s1, "Hello,");
+    rpo_strncat(s1, " World!", 3);
+    ASSERT("n < src, partial copy",             strcmp(s1, "Hello, Wo") == 0);
+    ASSERT("n < src, null terminated",          s1[strlen(s1)] == '\0');
+
+    strcpy(s1, "Hello,");
+    rpo_strncat(s1, " Hi", 10);
+    ASSERT("n > src, copies until src null",    strcmp(s1, "Hello, Hi") == 0);
+    ASSERT("n > src, null terminated",          s1[strlen(s1)] == '\0');
+
+    char t3[TEST_STRINGS_MAX_SIZE] = {'a', 'b', 'c'};
+    rpo_strncat(t3, "xyz", 0);
+    ASSERT("n == 0, null terminated added",     strcmp(t3, "abc") == 0);
+
+    strcpy(s1, "Hello,");
+    rpo_strncat(s1, "", 5);
+    ASSERT("empty s2",                          strcmp(s1, "Hello,") == 0);
 }
 
 // -- Main --
@@ -93,6 +130,7 @@ int main(void)
     test_strcpy();
     test_strncpy();
     test_strcat();
+    test_strncat();
     printf("\n=== Result: %d/%d passed ===\n",
            tests_run - tests_failed, tests_run);
     return tests_failed > 0 ? 1 : 0;
