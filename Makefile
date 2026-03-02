@@ -1,19 +1,19 @@
 CC      = gcc
 CFLAGS  = -Wall -Wextra -Werror -Iinclude
 
-SRC     = src/rpostr.c
-TEST    = tests/test_rpostr.c
-BIN     = test_runner
+test: test_str test_mem
 
-.PHONY: all test clean re
+test_str: src/rpostr.c tests/test_rpostr.c
+	$(CC) $(CFLAGS) src/rpostr.c tests/test_rpostr.c -o test_str
+	./test_str
 
-all: test
-
-test: $(SRC) $(TEST)
-	$(CC) $(CFLAGS) $(SRC) $(TEST) -o $(BIN)
-	./$(BIN)
+test_mem: src/rpomem.c tests/test_rpomem.c
+	$(CC) $(CFLAGS) src/rpomem.c tests/test_rpomem.c -o test_mem
+	./test_mem
 
 clean:
-	rm -f $(BIN)
+	rm -f test_str test_mem
 
-re: clean all
+re: clean test
+
+.PHONY: test test_str test_mem clean re

@@ -1,5 +1,7 @@
 
 test_runner
+test_mem
+test_str
 
 .vscode/
 
